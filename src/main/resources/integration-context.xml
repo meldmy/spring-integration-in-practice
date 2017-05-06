@@ -10,6 +10,5 @@
           id="printService"/>
 
     <int:service-activator input-channel="inboundChannel" method="print"
-                           output-channel="outputChannel"
                            ref="printService"/>
 </beans>
