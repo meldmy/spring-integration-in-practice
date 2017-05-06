@@ -1,6 +1,7 @@
 package com.amid.distributed_spring;
 
 import com.amid.distributed_spring.service.PrinterService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,18 +16,22 @@ import org.springframework.messaging.support.MessageBuilder;
 @SpringBootApplication
 @Configuration
 @ImportResource("integration-context.xml")
-public class DistributedSpringAppApplication implements ApplicationRunner{
+public class DistributedSpringAppApplication implements ApplicationRunner {
+
+    private final Logger log = Logger.getLogger(PrinterService.class);
 
     @Autowired
     private DirectChannel inboundChannel;
+    @Autowired
+    private DirectChannel outputChannel;
 
-	public static void main(String[] args) {
-		SpringApplication.run(DistributedSpringAppApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DistributedSpringAppApplication.class, args);
+    }
 
-	@Override
-	public void run(ApplicationArguments applicationArguments) throws Exception {
-        inboundChannel.subscribe(this::printMessage);
+    @Override
+    public void run(ApplicationArguments applicationArguments) throws Exception {
+        outputChannel.subscribe(this::printMessage);
 
         Message<String> message = MessageBuilder
                 .withPayload("Let's integrate")
@@ -37,6 +42,6 @@ public class DistributedSpringAppApplication implements ApplicationRunner{
     }
 
     private void printMessage(Message<?> message) {
-        new PrinterService().print((Message<String>) message);
+        log.info(message.getPayload());
     }
 }
