@@ -7,11 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.support.GenericMessage;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.messaging.support.MessageBuilder;
 
 @SpringBootApplication
 @Configuration
@@ -23,10 +19,10 @@ public class DistributedSpringAppApplication implements ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments applicationArguments) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("key", "value");
-        MessageHeaders headers = new MessageHeaders(map);
-        Message<String> message = new GenericMessage<>("Let's integrate", headers);
+        Message<String> message = MessageBuilder
+                .withPayload("Let's integrate")
+                .setHeader("HeaderKey", "HeaderValue")
+                .build();
 
         PrinterService service = new PrinterService();
         service.print(message);
