@@ -19,9 +19,11 @@
 
     <int:service-activator input-channel="inboundChannel"
                            method="print"
+                           order="2"
                            ref="printService"/>
 
     <int:service-activator input-channel="inboundChannel"
                            method="printUppercase"
+                           order="1"
                            ref="uppercasePrintService"/>
 </beans>
