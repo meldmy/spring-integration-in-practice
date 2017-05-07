@@ -4,11 +4,34 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-    <int:channel id="inboundChannel"/>
-    <int:channel id="outputChannel"/>
+    <int:gateway default-request-channel="inboundChannel"
+                 service-interface="com.amid.distributed_spring.gateway.PrinterGateway"/>
+
+    <int:channel id="inboundChannel">
+        <int:priority-queue capacity="10"/>
+        <!--<int:dispatcher failover="true"/>-->
+    </int:channel>
+
+    <!--<int:channel id="outputChannel"/>-->
+
     <bean class="com.amid.distributed_spring.service.PrinterService"
           id="printService"/>
 
-    <int:service-activator input-channel="inboundChannel" method="print"
-                           ref="printService"/>
+    <bean class="com.amid.distributed_spring.service.UppercasePrinterService"
+          id="uppercasePrintService"/>
+
+    <int:service-activator input-channel="inboundChannel"
+                           method="print"
+                           ref="printService">
+
+        <int:poller fixed-rate="5" max-messages-per-poll="1" time-unit="SECONDS"/>
+
+    </int:service-activator>
+
+    <int:service-activator input-channel="inboundChannel"
+                           method="printUppercase"
+                           ref="uppercasePrintService">
+        <int:poller fixed-rate="5" max-messages-per-poll="1" time-unit="SECONDS"/>
+
+    </int:service-activator>
 </beans>
