@@ -7,10 +7,7 @@
     <int:gateway default-request-channel="inboundChannel"
                  service-interface="com.amid.distributed_spring.gateway.PrinterGateway"/>
 
-    <int:channel id="inboundChannel">
-        <int:priority-queue capacity="10"/>
-        <!--<int:dispatcher failover="true"/>-->
-    </int:channel>
+    <int:channel id="inboundChannel"/>
 
     <!--<int:channel id="outputChannel"/>-->
 
@@ -22,16 +19,9 @@
 
     <int:service-activator input-channel="inboundChannel"
                            method="print"
-                           ref="printService">
-
-        <int:poller fixed-rate="5" max-messages-per-poll="1" time-unit="SECONDS"/>
-
-    </int:service-activator>
+                           ref="printService"/>
 
     <int:service-activator input-channel="inboundChannel"
                            method="printUppercase"
-                           ref="uppercasePrintService">
-        <int:poller fixed-rate="5" max-messages-per-poll="1" time-unit="SECONDS"/>
-
-    </int:service-activator>
+                           ref="uppercasePrintService"/>
 </beans>
