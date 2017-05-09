@@ -7,23 +7,22 @@
     <int:gateway default-request-channel="inboundChannel"
                  service-interface="com.amid.distributed_spring.gateway.PrinterGateway"/>
 
-    <int:channel id="inboundChannel"/>
+    <int:channel id="inboundChannel">
+        <int:dispatcher failover="false"/>
+    </int:channel>
 
-    <!--<int:channel id="outputChannel"/>-->
-
-    <bean class="com.amid.distributed_spring.service.PrinterService"
-          id="printService"/>
-
-    <bean class="com.amid.distributed_spring.service.UppercasePrinterService"
-          id="uppercasePrintService"/>
+    <!--first Message Handler (broken)-->
+    <bean id="printService" class="com.amid.distributed_spring.service.PrinterService"/>
 
     <int:service-activator input-channel="inboundChannel"
                            method="print"
-                           order="2"
                            ref="printService"/>
+
+    <!--second Message Handler-->
+    <bean id="uppercasePrintService"
+          class="com.amid.distributed_spring.service.UppercasePrinterService"/>
 
     <int:service-activator input-channel="inboundChannel"
                            method="printUppercase"
-                           order="1"
                            ref="uppercasePrintService"/>
 </beans>
