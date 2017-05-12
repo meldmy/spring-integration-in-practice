@@ -10,6 +10,7 @@ public class PrinterService {
 
     private final Logger log = Logger.getLogger(PrinterService.class);
 
+    //process message and appearing some error
     public void print(Message<String> message) {
         log.info(message.getPayload());
         throw new RuntimeException("This is error");

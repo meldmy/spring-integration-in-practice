@@ -1,6 +1,6 @@
 package com.amid.distributed_spring;
 
-import com.amid.distributed_spring.message.gateway.PrinterGateway;
+import com.amid.distributed_spring.message.gateway.BankOperationsGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -20,7 +20,7 @@ public class DistributedSpringAppApplication implements ApplicationRunner {
     private static final String MESSAGE_PAYLOAD = "Some payload that created for message id: ";
 
     @Autowired
-    private PrinterGateway gateway;
+    private BankOperationsGateway gateway;
 
     public static void main(String[] args) {
         SpringApplication.run(DistributedSpringAppApplication.class, args);
