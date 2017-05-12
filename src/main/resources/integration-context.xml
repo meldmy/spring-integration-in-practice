@@ -4,25 +4,35 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-    <int:gateway default-request-channel="inboundChannel"
+    <int:gateway default-request-channel="pollableChannel"
                  service-interface="com.amid.distributed_spring.gateway.PrinterGateway"/>
 
-    <int:channel id="inboundChannel">
-        <int:dispatcher failover="false"/>
+
+    <int:channel id="pollableChannel">
+        <int:queue capacity="10"/>
+    </int:channel>
+
+    <int:bridge input-channel="pollableChannel" output-channel="faultToleranceInboundChannel">
+        <int:poller fixed-delay="5" max-messages-per-poll="2" time-unit="SECONDS"/>
+    </int:bridge>
+
+
+    <int:channel id="faultToleranceInboundChannel">
+        <int:dispatcher failover="true"/>
     </int:channel>
 
     <!--first Message Handler (broken)-->
-    <bean id="printService" class="com.amid.distributed_spring.service.PrinterService"/>
+    <bean class="com.amid.distributed_spring.service.PrinterService" id="printService"/>
 
-    <int:service-activator input-channel="inboundChannel"
+    <int:service-activator input-channel="faultToleranceInboundChannel"
                            method="print"
                            ref="printService"/>
 
     <!--second Message Handler-->
-    <bean id="uppercasePrintService"
-          class="com.amid.distributed_spring.service.UppercasePrinterService"/>
+    <bean class="com.amid.distributed_spring.service.UppercasePrinterService"
+          id="uppercasePrintService"/>
 
-    <int:service-activator input-channel="inboundChannel"
+    <int:service-activator input-channel="faultToleranceInboundChannel"
                            method="printUppercase"
                            ref="uppercasePrintService"/>
 </beans>
