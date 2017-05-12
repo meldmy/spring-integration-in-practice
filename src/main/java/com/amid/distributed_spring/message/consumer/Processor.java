@@ -7,14 +7,15 @@ import org.apache.log4j.Logger;
 /**
  * @author Dmytro Melnychuk
  */
-public class Consumer {
+public abstract class Processor {
 
     private final Joiner joiner = Joiner.on(",");
-    private final Logger log = Logger.getLogger(CreditConsumer.class);
 
     void printMessage(BankAsset bankAsset, String assetName) {
-        log.info(createMessageForPrint(bankAsset, assetName));
+        getProcessorLogger().info(createMessageForPrint(bankAsset, assetName));
     }
+
+    abstract Logger getProcessorLogger();
 
     private String createMessageForPrint(BankAsset bankAsset, String assetName) {
         return joiner.join(
