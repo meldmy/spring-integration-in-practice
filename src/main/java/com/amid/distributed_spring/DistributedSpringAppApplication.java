@@ -1,6 +1,6 @@
 package com.amid.distributed_spring;
 
-import com.amid.distributed_spring.gateway.PrinterGateway;
+import com.amid.distributed_spring.message.gateway.PrinterGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

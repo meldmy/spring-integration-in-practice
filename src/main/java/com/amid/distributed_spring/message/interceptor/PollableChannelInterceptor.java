@@ -1,4 +1,4 @@
-package com.amid.distributed_spring.interceptor;
+package com.amid.distributed_spring.message.interceptor;
 
 import org.apache.log4j.Logger;
 import org.springframework.messaging.Message;
@@ -8,9 +8,9 @@ import org.springframework.messaging.support.ChannelInterceptorAdapter;
 /**
  * @author Dmytro Melnychuk
  */
-public class InboundChannelInterceptor extends ChannelInterceptorAdapter {
+public class PollableChannelInterceptor extends ChannelInterceptorAdapter {
 
-    private final Logger log = Logger.getLogger(InboundChannelInterceptor.class);
+    private final Logger log = Logger.getLogger(PollableChannelInterceptor.class);
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {

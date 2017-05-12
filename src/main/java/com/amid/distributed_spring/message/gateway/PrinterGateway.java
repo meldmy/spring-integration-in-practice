@@ -1,4 +1,4 @@
-package com.amid.distributed_spring.gateway;
+package com.amid.distributed_spring.message.gateway;
 
 import org.springframework.messaging.Message;
 
