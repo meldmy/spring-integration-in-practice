@@ -17,6 +17,8 @@ import org.springframework.messaging.support.MessageBuilder;
 @ImportResource("integration-context.xml")
 public class DistributedSpringAppApplication implements ApplicationRunner {
 
+    public static final int MESSAGE_QUANTITY = 10;
+    public static final String MESSAGE_PAYLOAD = "Some payload that created for message id: ";
     private final Logger log = Logger.getLogger(DistributedSpringAppApplication.class);
 
     @Autowired
@@ -28,12 +30,16 @@ public class DistributedSpringAppApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        for (int i = 0; i < 10; i++) {
-            Message<String> message = MessageBuilder
-                    .withPayload("Some payload that created for message id: " + i)
-                    .build();
-            log.info("Sending message " + i);
-            gateway.print(message);
+        for (int messageId = 0; messageId < MESSAGE_QUANTITY; messageId++) {
+            sendMessage(messageId);
         }
+    }
+
+    private void sendMessage(int messageId) {
+        Message<String> message = MessageBuilder
+                .withPayload(MESSAGE_PAYLOAD + messageId)
+                .build();
+        log.info("Sending message " + messageId);
+        gateway.print(message);
     }
 }
