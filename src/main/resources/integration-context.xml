@@ -5,9 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <int:gateway default-request-channel="pollableChannel"
-                 service-interface="com.amid.distributed_spring.gateway.PrinterGateway"/>
-
-    <bean class="com.amid.distributed_spring.interceptor.InboundChannelInterceptor" id="inboundInterceptor"/>
+                 service-interface="com.amid.distributed_spring.message.gateway.PrinterGateway"/>
 
     <int:channel id="pollableChannel">
         <int:queue capacity="10"/>
@@ -15,6 +13,13 @@
             <int:ref bean="inboundInterceptor"/>
         </int:interceptors>
     </int:channel>
+
+    <bean class="com.amid.distributed_spring.message.interceptor.PollableChannelInterceptor" id="inboundInterceptor"/>
+
+    <bean class="com.amid.distributed_spring.message.consumer.CreditConsumer" id="creditConsumer"/>
+    <bean class="com.amid.distributed_spring.message.consumer.DepositConsumer" id="depositConsumer"/>
+    <bean class="com.amid.distributed_spring.message.consumer.DerivativeConsumer" id="derivativeConsumer"/>
+    <bean class="com.amid.distributed_spring.message.consumer.SavingBondsConsumer" id="savingBondsConsumer"/>
 
     <int:bridge input-channel="pollableChannel" output-channel="faultToleranceInboundChannel">
         <int:poller fixed-delay="5" max-messages-per-poll="2" time-unit="SECONDS"/>
