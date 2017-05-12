@@ -1,7 +1,6 @@
 package com.amid.distributed_spring;
 
 import com.amid.distributed_spring.gateway.PrinterGateway;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,9 +16,8 @@ import org.springframework.messaging.support.MessageBuilder;
 @ImportResource("integration-context.xml")
 public class DistributedSpringAppApplication implements ApplicationRunner {
 
-    public static final int MESSAGE_QUANTITY = 10;
-    public static final String MESSAGE_PAYLOAD = "Some payload that created for message id: ";
-    private final Logger log = Logger.getLogger(DistributedSpringAppApplication.class);
+    private static final int MESSAGE_QUANTITY = 10;
+    private static final String MESSAGE_PAYLOAD = "Some payload that created for message id: ";
 
     @Autowired
     private PrinterGateway gateway;
@@ -38,8 +36,8 @@ public class DistributedSpringAppApplication implements ApplicationRunner {
     private void sendMessage(int messageId) {
         Message<String> message = MessageBuilder
                 .withPayload(MESSAGE_PAYLOAD + messageId)
+                .setHeader("messageId", messageId)
                 .build();
-        log.info("Sending message " + messageId);
         gateway.print(message);
     }
 }

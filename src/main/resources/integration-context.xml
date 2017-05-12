@@ -7,9 +7,13 @@
     <int:gateway default-request-channel="pollableChannel"
                  service-interface="com.amid.distributed_spring.gateway.PrinterGateway"/>
 
+    <bean class="com.amid.distributed_spring.interceptor.InboundChannelInterceptor" id="inboundInterceptor"/>
 
     <int:channel id="pollableChannel">
         <int:queue capacity="10"/>
+        <int:interceptors>
+            <int:ref bean="inboundInterceptor"/>
+        </int:interceptors>
     </int:channel>
 
     <int:bridge input-channel="pollableChannel" output-channel="faultToleranceInboundChannel">
