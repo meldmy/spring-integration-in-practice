@@ -16,24 +16,39 @@
 
     <bean class="com.amid.distributed_spring.message.interceptor.PollableChannelInterceptor" id="inboundInterceptor"/>
 
-    <bean class="com.amid.distributed_spring.message.consumer.CreditConsumer" id="creditConsumer"/>
-    <bean class="com.amid.distributed_spring.message.consumer.DepositConsumer" id="depositConsumer"/>
-    <bean class="com.amid.distributed_spring.message.consumer.DerivativeConsumer" id="derivativeConsumer"/>
-    <bean class="com.amid.distributed_spring.message.consumer.SavingBondsConsumer" id="savingBondsConsumer"/>
+    <int:payload-type-router default-output-channel="pollableErrorHandlerChannel" input-channel="pollableChannel">
+        <int:mapping channel="creditChannel" type="com.amid.distributed_spring.entity.Credit"/>
+        <int:mapping channel="depositChannel" type="com.amid.distributed_spring.entity.Deposit"/>
+        <int:mapping channel="derivativeChannel" type="com.amid.distributed_spring.entity.Derivative"/>
+        <int:mapping channel="savingBondsChannel" type="com.amid.distributed_spring.entity.SavingBonds"/>
+    </int:payload-type-router>
 
-    <int:bridge input-channel="pollableChannel" output-channel="faultToleranceInboundChannel">
+    <bean class="com.amid.distributed_spring.message.consumer.CreditProcessor" id="creditProcessor"/>
+    <bean class="com.amid.distributed_spring.message.consumer.DepositProcessor" id="depositProcessor"/>
+    <bean class="com.amid.distributed_spring.message.consumer.DerivativeProcessor" id="derivativeProcessor"/>
+    <bean class="com.amid.distributed_spring.message.consumer.SavingBondsProcessor" id="savingBondsProcessor"/>
+
+    <int:service-activator id="credit_processor" input-channel="creditChannel" method="print" ref="creditProcessor"/>
+    <int:service-activator id="deposit_processor" input-channel="depositChannel" method="print" ref="depositProcessor"/>
+    <int:service-activator id="derivative_processor" input-channel="derivativeChannel" method="print"
+                           ref="derivativeProcessor"/>
+    <int:service-activator id="savingBonds_processor" input-channel="savingBondsChannel" method="print"
+                           ref="savingBondsProcessor"/>
+
+
+    <int:bridge id="errorHandlerBridge" input-channel="pollableErrorHandlerChannel"
+                output-channel="faultToleranceInboundDirectChannel">
         <int:poller fixed-delay="5" max-messages-per-poll="2" time-unit="SECONDS"/>
     </int:bridge>
 
-
-    <int:channel id="faultToleranceInboundChannel">
+    <int:channel id="faultToleranceInboundDirectChannel">
         <int:dispatcher failover="true"/>
     </int:channel>
 
     <!--first Message Handler (broken)-->
     <bean class="com.amid.distributed_spring.service.PrinterService" id="printService"/>
 
-    <int:service-activator input-channel="faultToleranceInboundChannel"
+    <int:service-activator input-channel="faultToleranceInboundDirectChannel"
                            method="print"
                            ref="printService"/>
 
@@ -41,7 +56,7 @@
     <bean class="com.amid.distributed_spring.service.UppercasePrinterService"
           id="uppercasePrintService"/>
 
-    <int:service-activator input-channel="faultToleranceInboundChannel"
+    <int:service-activator input-channel="faultToleranceInboundDirectChannel"
                            method="printUppercase"
                            ref="uppercasePrintService"/>
 </beans>
