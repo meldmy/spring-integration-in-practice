@@ -1,11 +1,10 @@
 package com.amid.distributed_spring.entity;
 
+import lombok.Data;
+
 /**
  * @author Dmytro Melnychuk
  */
+@Data
 public class Deposit extends BankAsset {
-
-    public Deposit(int operationId, BankClient client, double sum) {
-        super(operationId, client, sum);
-    }
 }
