@@ -16,13 +16,31 @@
 
     <bean class="com.amid.distributed_spring.message.interceptor.PollableChannelInterceptor" id="inboundInterceptor"/>
 
-    <int:payload-type-router default-output-channel="subscribableErrorHandlerChannel" id="assetTypeRouter"
+    <int:header-value-router default-output-channel="absentMessageIdChannel" header-name="isPrinted"
                              input-channel="inboundChannel">
+        <int:mapping channel="inboundAssetChannel" value="false"/>
+    </int:header-value-router>
+
+    <int:payload-type-router default-output-channel="subscribableErrorHandlerChannel" id="assetTypeRouter"
+                             input-channel="inboundAssetChannel">
         <int:mapping channel="creditChannel" type="com.amid.distributed_spring.entity.Credit"/>
         <int:mapping channel="depositChannel" type="com.amid.distributed_spring.entity.Deposit"/>
         <int:mapping channel="derivativeChannel" type="com.amid.distributed_spring.entity.Derivative"/>
         <int:mapping channel="savingBondsChannel" type="com.amid.distributed_spring.entity.SavingBonds"/>
     </int:payload-type-router>
+
+    <int:header-enricher input-channel="absentMessageIdChannel" output-channel="inboundAssetChannel">
+        <int:header name="isPrinted" value="false"/>
+        <int:header name="messageId" value="000000000000"/>
+    </int:header-enricher>
+
+    <!--<int:service-activator id="absent_message_resolver"-->
+    <!--input-channel="absentMessageIdChannel"-->
+    <!--method="resolve"-->
+    <!--ref="absentMessageResolver"/>-->
+
+    <!--<bean class="com.amid.distributed_spring.message.error.AbsentMessageResolver" id="absentMessageResolver"/>-->
+
 
     <bean class="com.amid.distributed_spring.message.consumer.CreditProcessor" id="creditProcessor"/>
     <bean class="com.amid.distributed_spring.message.consumer.DepositProcessor" id="depositProcessor"/>
