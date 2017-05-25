@@ -4,8 +4,12 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-    <int:gateway default-request-channel="inboundChannel" id="bankOperationsGateway"
-                 service-interface="com.amid.distributed_spring.message.gateway.BankOperationsGateway"/>
+    <int:gateway default-request-channel="inboundChannel"
+                 id="bankOperationsGateway"
+                 service-interface="com.amid.distributed_spring.message.gateway.BankOperationsGateway">
+        <int:method name="print" request-channel="inboundChannel"/>
+        <int:method name="printDevidedByFive" request-channel="subscribableErrorHandlerChannel"/>
+    </int:gateway>
 
     <int:channel id="inboundChannel">
         <int:dispatcher max-subscribers="1"/>

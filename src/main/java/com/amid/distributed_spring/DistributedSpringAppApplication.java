@@ -11,9 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 
 import java.util.Set;
+
+import static com.amid.distributed_spring.message.creation.AssetMessageBuilder.buildMessage;
 
 @SpringBootApplication
 @Configuration
@@ -33,19 +34,32 @@ public class DistributedSpringAppApplication implements ApplicationRunner {
     public void run(ApplicationArguments applicationArguments) throws Exception {
         generateRandomBankAssets()
                 .stream()
-                .map(this::sendMessage)
-                .forEach(gateway::print);
+                .map(this::createMessage)
+                .forEach(this::sentMessage);
+    }
+
+    private void sentMessage(Message<BankAsset> message) {
+        if (isDividedByFiveWithoutRemainder(message))
+            gateway.printDevidedByFive(message);
+        else {
+            gateway.print(message);
+        }
+    }
+
+    private boolean isDividedByFiveWithoutRemainder(Message<BankAsset> i) {
+        return getMessageCounter(i) % 5 == 0;
+    }
+
+    private int getMessageCounter(Message<BankAsset> i) {
+        return Integer.parseInt(i.getHeaders().get("counter").toString());
     }
 
     private Set<BankAsset> generateRandomBankAssets() {
         return new RandomAssetGenerator().generateRandomBankAssets(MESSAGE_QUANTITY);
     }
 
-    private Message<BankAsset> sendMessage(BankAsset asset) {
-        return MessageBuilder
-                .withPayload(asset)
-                .setHeader("messageId", asset.getOperationId())
-                .setHeader("isPrinted", "false")
-                .build();
+    private Message<BankAsset> createMessage(BankAsset asset) {
+        return buildMessage(asset);
     }
+
 }

@@ -17,9 +17,9 @@ import static java.util.Optional.of;
 public class RandomAssetGenerator {
 
     private static final Random RANDOM = new Random();
-    private final static RandomClientGenerator clientGenerator = new RandomClientGenerator();
     private static final int MAX_ID = 2_000_000_000;
     private static final int MAX_SUM = 50_000_000;
+    private final static RandomClientGenerator clientGenerator = new RandomClientGenerator();
     private final Logger log = Logger.getLogger(RandomAssetGenerator.class);
 
     public Set<BankAsset> generateRandomBankAssets(int assetSize) {

@@ -8,4 +8,6 @@ import org.springframework.messaging.Message;
 public interface BankOperationsGateway {
 
     void print(Message<?> message);
+
+    void printDevidedByFive(Message<?> message);
 }
