@@ -33,7 +33,7 @@ public class DistributedSpringAppApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         generateRandomBankAssets()
-                .stream()
+                .parallelStream()
                 .map(this::createMessage)
                 .forEach(this::sentMessage);
     }
