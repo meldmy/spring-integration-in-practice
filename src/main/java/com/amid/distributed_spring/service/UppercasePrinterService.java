@@ -10,7 +10,7 @@ public class UppercasePrinterService {
 
     private final Logger log = Logger.getLogger(UppercasePrinterService.class);
 
-    public void printUppercase(Message<String> message) {
-        log.info(message.getPayload().toUpperCase());
+    public void printUppercase(Message<?> message) {
+        log.info(message.getPayload().toString().toUpperCase());
     }
 }

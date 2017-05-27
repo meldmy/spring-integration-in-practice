@@ -11,8 +11,9 @@ public class PrinterService {
     private final Logger log = Logger.getLogger(PrinterService.class);
 
     //process message and appearing some error
-    public void print(Message<String> message) {
+    public void print(Message<?> message) {
         log.info(message.getPayload());
+        log.info(message.getHeaders().get("inboundPriority"));
         throw new RuntimeException("This is error");
     }
 }
