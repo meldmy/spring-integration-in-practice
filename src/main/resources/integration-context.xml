@@ -6,7 +6,7 @@
 
     <int:gateway default-request-channel="inboundChannel"
                  id="bankOperationsGateway"
-                 service-interface="com.amid.distributed_spring.message.gateway.BankOperationsGateway">
+                 service-interface="com.amid.distributed.spring.message.gateway.BankOperationsGateway">
         <int:method name="print" request-channel="inboundChannel">
             <int:header name="inboundPriority" value="inboundChannel"/>
         </int:method>
@@ -22,7 +22,7 @@
         </int:interceptors>
     </int:channel>
 
-    <bean class="com.amid.distributed_spring.message.interceptor.PollableChannelInterceptor" id="inboundInterceptor"/>
+    <bean class="com.amid.distributed.spring.message.interceptor.PollableChannelInterceptor" id="inboundInterceptor"/>
 
     <int:header-value-router default-output-channel="absentMessageIdChannel" header-name="isPrinted"
                              input-channel="inboundChannel">
@@ -36,17 +36,17 @@
 
     <int:payload-type-router default-output-channel="subscribableErrorHandlerChannel" id="assetTypeRouter"
                              input-channel="inboundAssetChannel">
-        <int:mapping channel="creditChannel" type="com.amid.distributed_spring.entity.Credit"/>
-        <int:mapping channel="depositChannel" type="com.amid.distributed_spring.entity.Deposit"/>
-        <int:mapping channel="derivativeChannel" type="com.amid.distributed_spring.entity.Derivative"/>
-        <int:mapping channel="savingBondsChannel" type="com.amid.distributed_spring.entity.SavingBonds"/>
+        <int:mapping channel="creditChannel" type="com.amid.distributed.spring.entity.Credit"/>
+        <int:mapping channel="depositChannel" type="com.amid.distributed.spring.entity.Deposit"/>
+        <int:mapping channel="derivativeChannel" type="com.amid.distributed.spring.entity.Derivative"/>
+        <int:mapping channel="savingBondsChannel" type="com.amid.distributed.spring.entity.SavingBonds"/>
     </int:payload-type-router>
 
 
-    <bean class="com.amid.distributed_spring.message.consumer.CreditProcessor" id="creditProcessor"/>
-    <bean class="com.amid.distributed_spring.message.consumer.DepositProcessor" id="depositProcessor"/>
-    <bean class="com.amid.distributed_spring.message.consumer.DerivativeProcessor" id="derivativeProcessor"/>
-    <bean class="com.amid.distributed_spring.message.consumer.SavingBondsProcessor" id="savingBondsProcessor"/>
+    <bean class="com.amid.distributed.spring.message.consumer.CreditProcessor" id="creditProcessor"/>
+    <bean class="com.amid.distributed.spring.message.consumer.DepositProcessor" id="depositProcessor"/>
+    <bean class="com.amid.distributed.spring.message.consumer.DerivativeProcessor" id="derivativeProcessor"/>
+    <bean class="com.amid.distributed.spring.message.consumer.SavingBondsProcessor" id="savingBondsProcessor"/>
 
     <int:service-activator id="credit_processor" input-channel="creditChannel" method="print" ref="creditProcessor"/>
     <int:service-activator id="deposit_processor" input-channel="depositChannel" method="print" ref="depositProcessor"/>
@@ -66,7 +66,7 @@
     </int:channel>
 
     <!--first Error Handler (broken)-->
-    <bean class="com.amid.distributed_spring.service.PrinterService" id="printService"/>
+    <bean class="com.amid.distributed.spring.service.PrinterService" id="printService"/>
 
     <int:service-activator id="brokenErrorHandlerEndpoint"
                            input-channel="faultToleranceErrorHandlerDirectChannel"
@@ -74,7 +74,7 @@
                            ref="printService"/>
 
     <!--second Error Handler-->
-    <bean class="com.amid.distributed_spring.service.UppercasePrinterService"
+    <bean class="com.amid.distributed.spring.service.UppercasePrinterService"
           id="uppercasePrintService"/>
 
     <int:service-activator id="errorHandlerEndpoint"
