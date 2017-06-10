@@ -1,4 +1,4 @@
-package com.amid.distributed.spring.message.consumer;
+package com.amid.distributed.spring.service.consumer;
 
 import com.amid.distributed.spring.entity.Credit;
 import org.apache.log4j.Logger;

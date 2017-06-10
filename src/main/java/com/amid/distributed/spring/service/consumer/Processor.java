@@ -1,4 +1,4 @@
-package com.amid.distributed.spring.message.consumer;
+package com.amid.distributed.spring.service.consumer;
 
 import com.amid.distributed.spring.entity.BankAsset;
 import com.google.common.base.Joiner;

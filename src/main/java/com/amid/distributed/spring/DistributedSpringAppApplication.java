@@ -60,5 +60,4 @@ public class DistributedSpringAppApplication implements ApplicationRunner {
     private Message<BankAsset> createMessage(BankAsset asset) {
         return AssetMessageBuilder.buildMessage(asset);
     }
-
 }
