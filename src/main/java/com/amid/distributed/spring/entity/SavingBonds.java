@@ -8,7 +8,7 @@ import lombok.ToString;
  * @author Dmytro Melnychuk
  */
 @Data
-@ToString(callSuper = true, includeFieldNames = true)
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class SavingBonds extends BankAsset {
 }

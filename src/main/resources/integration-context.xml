@@ -4,9 +4,11 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
+    <bean class="com.amid.distributed.spring.gateway.GatewaySender" id="gatewaySender"/>
+
     <int:gateway default-request-channel="inboundChannel"
                  id="bankOperationsGateway"
-                 service-interface="com.amid.distributed.spring.message.gateway.BankOperationsGateway">
+                 service-interface="com.amid.distributed.spring.gateway.BankOperationsGateway">
         <int:method name="print" request-channel="inboundChannel">
             <int:header name="inboundPriority" value="inboundChannel"/>
         </int:method>
@@ -43,10 +45,10 @@
     </int:payload-type-router>
 
 
-    <bean class="com.amid.distributed.spring.message.consumer.CreditProcessor" id="creditProcessor"/>
-    <bean class="com.amid.distributed.spring.message.consumer.DepositProcessor" id="depositProcessor"/>
-    <bean class="com.amid.distributed.spring.message.consumer.DerivativeProcessor" id="derivativeProcessor"/>
-    <bean class="com.amid.distributed.spring.message.consumer.SavingBondsProcessor" id="savingBondsProcessor"/>
+    <bean class="com.amid.distributed.spring.service.consumer.CreditProcessor" id="creditProcessor"/>
+    <bean class="com.amid.distributed.spring.service.consumer.DepositProcessor" id="depositProcessor"/>
+    <bean class="com.amid.distributed.spring.service.consumer.DerivativeProcessor" id="derivativeProcessor"/>
+    <bean class="com.amid.distributed.spring.service.consumer.SavingBondsProcessor" id="savingBondsProcessor"/>
 
     <int:service-activator id="credit_processor" input-channel="creditChannel" method="print" ref="creditProcessor"/>
     <int:service-activator id="deposit_processor" input-channel="depositChannel" method="print" ref="depositProcessor"/>

@@ -7,7 +7,7 @@ import lombok.ToString;
  * @author Dmytro Melnychuk
  */
 @Data
-@ToString(includeFieldNames = true)
+@ToString
 public class BankClient {
     private int clientId;
     private String name;

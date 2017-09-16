@@ -14,6 +14,6 @@ public class PrinterService {
     public void print(Message<?> message) {
         log.info(message.getPayload());
         log.info(message.getHeaders().get("inboundPriority"));
-        throw new FakeServiceException("This is error");
+        throw new FakeServiceException();
     }
 }
