@@ -4,7 +4,11 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-    <bean class="com.amid.distributed.spring.gateway.GatewaySender" id="gatewaySender"/>
+    <bean class="com.amid.distributed.spring.gateway.GatewaySender" id="gatewaySender">
+        <constructor-arg ref="bankOperationsGateway"/>
+<!--            <bean class="com.amid.distributed.spring.gateway.BankOperationsGateway"/>-->
+<!--        </constructor-arg>-->
+    </bean>
 
     <int:gateway default-request-channel="inboundChannel"
                  id="bankOperationsGateway"
@@ -64,7 +68,7 @@
     <!--</int:bridge>-->
 
     <int:channel id="faultToleranceErrorHandlerDirectChannel">
-        <int:dispatcher failover="true"/>
+        <int:queue capacity="10" />
     </int:channel>
 
     <!--first Error Handler (broken)-->

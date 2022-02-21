@@ -3,9 +3,7 @@ package com.amid.distributed.spring.gateway;
 import com.amid.distributed.spring.entity.BankAsset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Service;
 
-@Service
 public class GatewaySender {
 
     private final BankOperationsGateway gateway;
@@ -28,7 +26,7 @@ public class GatewaySender {
     }
 
     private int getMessageCounter(Message<BankAsset> i) {
-        String counterValue = i.getHeaders().get("counter").toString();
+        var counterValue = i.getHeaders().get("counter").toString();
         return Integer.parseInt(counterValue);
     }
 }
