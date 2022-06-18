@@ -1,7 +1,6 @@
 package com.amid.distributed.spring.gateway;
 
 import com.amid.distributed.spring.entity.BankAsset;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 
 import java.util.Optional;

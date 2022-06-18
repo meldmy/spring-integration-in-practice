@@ -6,7 +6,7 @@
 	<description>Working with multiple approaches Spring Integration uses for system integration</description>
 	<groupId>com.amid.distributed_spring</groupId>
 	<artifactId>spring-integration-in-practice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 	<properties>
 		<java.version>17</java.version>
