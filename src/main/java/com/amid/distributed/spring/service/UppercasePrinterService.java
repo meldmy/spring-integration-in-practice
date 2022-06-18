@@ -1,6 +1,7 @@
 package com.amid.distributed.spring.service;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.messaging.Message;
 
 /**
@@ -8,7 +9,7 @@ import org.springframework.messaging.Message;
  */
 public class UppercasePrinterService {
 
-    private final Logger log = Logger.getLogger(UppercasePrinterService.class);
+    private final Logger log = LogManager.getLogger(UppercasePrinterService.class);
 
     public void printUppercase(Message<?> message) {
         log.info(message.getPayload().toString().toUpperCase());

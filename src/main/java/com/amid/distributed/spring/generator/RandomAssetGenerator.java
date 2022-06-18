@@ -1,7 +1,8 @@
 package com.amid.distributed.spring.generator;
 
 import com.amid.distributed.spring.entity.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -20,7 +21,7 @@ public class RandomAssetGenerator {
     private static final int MAX_ID = 2_000_000_000;
     private static final int MAX_SUM = 50_000_000;
     private static final RandomClientGenerator clientGenerator = new RandomClientGenerator();
-    private final Logger log = Logger.getLogger(RandomAssetGenerator.class);
+    private final Logger log = LogManager.getLogger(RandomAssetGenerator.class);
 
     public Set<BankAsset> generateRandomBankAssets(int assetSize) {
         List<Class<? extends BankAsset>> assetClasses = getAvailableBankAssetClasses();
