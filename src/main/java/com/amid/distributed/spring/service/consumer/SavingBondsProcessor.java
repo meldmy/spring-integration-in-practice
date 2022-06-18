@@ -8,14 +8,9 @@ import org.springframework.messaging.Message;
 /**
  * @author Dmytro Melnychuk
  */
-public class SavingBondsProcessor extends Processor {
+public class SavingBondsProcessor extends Processor<SavingBonds> {
 
-    private static final String SAVING_BONDS = "SavingBonds";
     private static final Logger LOGGER = LogManager.getLogger(SavingBondsProcessor.class);
-
-    public void print(Message<?> message) {
-        printMessage((SavingBonds) message.getPayload(), SAVING_BONDS);
-    }
 
     @Override
     Logger getProcessorLogger() {

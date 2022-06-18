@@ -10,5 +10,9 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Derivative extends BankAsset {
+public final class Derivative extends BankAsset {
+    @Override
+    public String getAssetName() {
+        return "derivative";
+    }
 }

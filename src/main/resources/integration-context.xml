@@ -54,11 +54,13 @@
     <bean class="com.amid.distributed.spring.service.consumer.DerivativeProcessor" id="derivativeProcessor"/>
     <bean class="com.amid.distributed.spring.service.consumer.SavingBondsProcessor" id="savingBondsProcessor"/>
 
-    <int:service-activator id="credit_processor" input-channel="creditChannel" method="print" ref="creditProcessor"/>
-    <int:service-activator id="deposit_processor" input-channel="depositChannel" method="print" ref="depositProcessor"/>
-    <int:service-activator id="derivative_processor" input-channel="derivativeChannel" method="print"
+    <int:service-activator id="credit_processor" input-channel="creditChannel" method="printMessage"
+                           ref="creditProcessor"/>
+    <int:service-activator id="deposit_processor" input-channel="depositChannel" method="printMessage"
+                           ref="depositProcessor"/>
+    <int:service-activator id="derivative_processor" input-channel="derivativeChannel" method="printMessage"
                            ref="derivativeProcessor"/>
-    <int:service-activator id="savingBonds_processor" input-channel="savingBondsChannel" method="print"
+    <int:service-activator id="savingBonds_processor" input-channel="savingBondsChannel" method="printMessage"
                            ref="savingBondsProcessor"/>
 
 
@@ -68,7 +70,7 @@
     <!--</int:bridge>-->
 
     <int:channel id="faultToleranceErrorHandlerDirectChannel">
-        <int:queue capacity="10" />
+        <int:queue capacity="10"/>
     </int:channel>
 
     <!--first Error Handler (broken)-->

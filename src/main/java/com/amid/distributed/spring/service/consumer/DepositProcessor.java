@@ -8,14 +8,9 @@ import org.springframework.messaging.Message;
 /**
  * @author Dmytro Melnychuk
  */
-public class DepositProcessor extends Processor {
+public class DepositProcessor extends Processor<Deposit> {
 
-    private static final String DEPOSIT = "Deposit";
     private static final Logger LOGGER = LogManager.getLogger(DepositProcessor.class);
-
-    public void print(Message<?> message) {
-        printMessage((Deposit) message.getPayload(), DEPOSIT);
-    }
 
     @Override
     Logger getProcessorLogger() {

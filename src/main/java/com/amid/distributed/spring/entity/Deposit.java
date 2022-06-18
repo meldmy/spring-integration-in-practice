@@ -10,5 +10,9 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Deposit extends BankAsset {
+public final class Deposit extends BankAsset {
+    @Override
+    public String getAssetName() {
+        return "deposit";
+    }
 }

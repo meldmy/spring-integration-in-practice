@@ -8,14 +8,9 @@ import org.springframework.messaging.Message;
 /**
  * @author Dmytro Melnychuk
  */
-public class CreditProcessor extends Processor {
+public class CreditProcessor extends Processor<Credit> {
 
-    private static final String CREDIT = "Credit";
     private static final Logger LOGGER = LogManager.getLogger(CreditProcessor.class);
-
-    public void print(Message<?> message) {
-        printMessage((Credit) message.getPayload(), CREDIT);
-    }
 
     @Override
     Logger getProcessorLogger() {
