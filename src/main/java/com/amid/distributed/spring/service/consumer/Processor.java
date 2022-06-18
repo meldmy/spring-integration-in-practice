@@ -2,7 +2,8 @@ package com.amid.distributed.spring.service.consumer;
 
 import com.amid.distributed.spring.entity.BankAsset;
 import com.google.common.base.Joiner;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Dmytro Melnychuk

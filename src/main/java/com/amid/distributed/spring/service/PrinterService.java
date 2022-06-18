@@ -1,6 +1,7 @@
 package com.amid.distributed.spring.service;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
@@ -10,7 +11,7 @@ import org.springframework.messaging.MessagingException;
  */
 public class PrinterService implements MessageHandler {
 
-    private final Logger log = Logger.getLogger(PrinterService.class);
+    private final Logger log = LogManager.getLogger(PrinterService.class);
 
     //process message and appearing some error
     public void print(Message<?> message) {
